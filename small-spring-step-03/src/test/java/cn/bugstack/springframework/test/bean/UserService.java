@@ -1,29 +1,27 @@
 package cn.bugstack.springframework.test.bean;
 
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
  */
 public class UserService {
 
     private String name;
 
+    private String code;
+
     public UserService() {
     }
     
-    public UserService(String name) {
+    public UserService(String name, String code) {
         this.name = name;
+        this.code = code;
     }
 
     public void queryUserInfo() {
-        System.out.println("查询用户信息：" + name);
+        System.out.println("查询用户信息, name:" + name + " code:" + code);
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("");
-        sb.append("").append(name);
-        return sb.toString();
+        return "" + name +" " + code;
     }
 }

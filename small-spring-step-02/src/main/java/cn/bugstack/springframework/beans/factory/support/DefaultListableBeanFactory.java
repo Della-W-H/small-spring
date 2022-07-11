@@ -28,4 +28,18 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         return beanDefinition;
     }
 
+    //这个工厂类已经包括 AbstractAutowireCapableBeanFactory.createBean()即创建 bean对象实例并保存的方法了
+
+    /*@Override
+    protected Object createBean(String beanName, BeanDefinition beanDefinition) throws BeansException {
+        return super.createBean(beanName, beanDefinition);
+    }*/
+
+    //这个工厂类中也包括了 添加 实例化后的bean对象到bean工厂中的方法
+
+    /*@Override
+    protected void addSingleton(String beanName, Object singletonObject) {
+        super.addSingleton(beanName, singletonObject);
+    }*/
+
 }

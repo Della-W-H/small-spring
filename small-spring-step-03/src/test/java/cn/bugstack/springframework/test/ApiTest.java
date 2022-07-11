@@ -2,6 +2,7 @@ package cn.bugstack.springframework.test;
 
 import cn.bugstack.springframework.beans.factory.config.BeanDefinition;
 import cn.bugstack.springframework.beans.factory.support.DefaultListableBeanFactory;
+import cn.bugstack.springframework.beans.factory.support.SimpleInstantiationStrategy;
 import cn.bugstack.springframework.test.bean.UserService;
 import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.Enhancer;
@@ -12,9 +13,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
  */
 public class ApiTest {
 
@@ -26,10 +24,23 @@ public class ApiTest {
         // 3. 注入bean
         BeanDefinition beanDefinition = new BeanDefinition(UserService.class);
         beanFactory.registerBeanDefinition("userService", beanDefinition);
+        beanFactory.registerBeanDefinition("userService1", beanDefinition);
 
         // 4.获取bean
-        UserService userService = (UserService) beanFactory.getBean("userService", "小傅哥");
+        UserService userService = (UserService) beanFactory.getBean("userService", "小傅哥","9");
+        UserService userService1 = (UserService) beanFactory.getBean("userService1", "9","小傅哥");
         userService.queryUserInfo();
+        userService1.queryUserInfo();
+    }
+
+    @Test
+    public void test_JDK(){
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+        beanFactory.setInstantiationStrategy(new SimpleInstantiationStrategy());
+        BeanDefinition beanDefinition = new BeanDefinition(UserService.class);
+        beanFactory.registerBeanDefinition("userService",beanDefinition);
+        UserService bean = (UserService) beanFactory.getBean("userService", "della", "Num.1");
+        bean.queryUserInfo();
     }
 
     @Test
@@ -42,8 +53,9 @@ public class ApiTest {
                 return super.hashCode();
             }
         });
-        Object obj = enhancer.create(new Class[]{String.class}, new Object[]{"小傅哥"});
-        System.out.println(obj);
+        Object obj = enhancer.create(new Class[]{String.class, String.class}, new Object[]{"小傅哥","9"});
+        UserService service = (UserService) obj;
+        service.queryUserInfo();
     }
 
     @Test
@@ -55,8 +67,8 @@ public class ApiTest {
     @Test
     public void test_constructor() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Class<UserService> userServiceClass = UserService.class;
-        Constructor<UserService> declaredConstructor = userServiceClass.getDeclaredConstructor(String.class);
-        UserService userService = declaredConstructor.newInstance("小傅哥");
+        Constructor<UserService> declaredConstructor = userServiceClass.getDeclaredConstructor(String.class,String.class);
+        UserService userService = declaredConstructor.newInstance("小傅哥","9");
         System.out.println(userService);
     }
 
@@ -66,13 +78,13 @@ public class ApiTest {
         Constructor<?>[] declaredConstructors = beanClass.getDeclaredConstructors();
         Constructor<?> constructor = null;
         for (Constructor<?> ctor : declaredConstructors) {
-            if (ctor.getParameterTypes().length == 1) {
+            if (ctor.getParameterTypes().length == 2) {
                 constructor = ctor;
                 break;
             }
         }
         Constructor<UserService> declaredConstructor = beanClass.getDeclaredConstructor(constructor.getParameterTypes());
-        UserService userService = declaredConstructor.newInstance("小傅哥");
+        UserService userService = declaredConstructor.newInstance("小傅哥","9");
         System.out.println(userService);
     }
 

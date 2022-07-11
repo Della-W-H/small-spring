@@ -5,18 +5,14 @@ import cn.bugstack.springframework.beans.PropertyValue;
 import cn.bugstack.springframework.beans.PropertyValues;
 import cn.bugstack.springframework.beans.factory.config.BeanDefinition;
 import cn.bugstack.springframework.beans.factory.config.BeanReference;
+import cn.bugstack.springframework.beans.factory.config.InstantiationStrategy;
 import cn.hutool.core.bean.BeanUtil;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
  */
+@SuppressWarnings("all")
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory {
 
     private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
@@ -50,7 +46,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     /**
-     * Bean 属性填充
+     * Bean 属性填充 不涉及循环依赖的问题
      */
     protected void applyPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
         try {
@@ -61,11 +57,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                 Object value = propertyValue.getValue();
 
                 if (value instanceof BeanReference) {
-                    // A 依赖 B，获取 B 的实例化
+                    // A 依赖 B，获取 B 的实例化 此处是一处 递归调用实例化
                     BeanReference beanReference = (BeanReference) value;
                     value = getBean(beanReference.getBeanName());
                 }
-                // 属性填充
+                //todo 属性填充 底层仍是调用 反射实现的 可以自己尝试一下
                 BeanUtil.setFieldValue(bean, name, value);
             }
         } catch (Exception e) {

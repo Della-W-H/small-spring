@@ -2,18 +2,16 @@ package cn.bugstack.springframework.beans.factory.support;
 
 import cn.bugstack.springframework.beans.BeansException;
 import cn.bugstack.springframework.beans.factory.config.BeanDefinition;
+import cn.bugstack.springframework.beans.factory.config.InstantiationStrategy;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ * 对class类文件正真进行实例化的类 并存储到 DefaultListableBeanRegistry对象中的SingletonObjects容器中
  */
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory {
+
+    //默认使用的时Cglib
 
     private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
 
@@ -30,6 +28,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         return bean;
     }
 
+    @SuppressWarnings("all")
     protected Object createBeanInstance(BeanDefinition beanDefinition, String beanName, Object[] args) {
         Constructor constructorToUse = null;
         Class<?> beanClass = beanDefinition.getBeanClass();
@@ -40,6 +39,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                 break;
             }
         }
+        //实例化class文件 创建bean对象
         return getInstantiationStrategy().instantiate(beanDefinition, beanName, constructorToUse, args);
     }
 

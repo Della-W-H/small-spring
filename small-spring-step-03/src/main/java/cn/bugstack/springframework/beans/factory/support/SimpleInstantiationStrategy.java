@@ -2,17 +2,17 @@ package cn.bugstack.springframework.beans.factory.support;
 
 import cn.bugstack.springframework.beans.BeansException;
 import cn.bugstack.springframework.beans.factory.config.BeanDefinition;
+import cn.bugstack.springframework.beans.factory.config.InstantiationStrategy;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ * jdk自带的 实例化策略 即反射
  */
 public class SimpleInstantiationStrategy implements InstantiationStrategy {
 
+    @SuppressWarnings("all")
     @Override
     public Object instantiate(BeanDefinition beanDefinition, String beanName, Constructor ctor, Object[] args) throws BeansException {
         Class clazz = beanDefinition.getBeanClass();

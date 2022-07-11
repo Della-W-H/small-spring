@@ -13,9 +13,6 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
  */
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory {
 
@@ -36,6 +33,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         return bean;
     }
 
+    @SuppressWarnings("all")
     protected Object createBeanInstance(BeanDefinition beanDefinition, String beanName, Object[] args) {
         Constructor constructorToUse = null;
         Class<?> beanClass = beanDefinition.getBeanClass();
@@ -52,6 +50,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     /**
      * Bean 属性填充
      */
+    @SuppressWarnings("all")
     protected void applyPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
         try {
             PropertyValues propertyValues = beanDefinition.getPropertyValues();

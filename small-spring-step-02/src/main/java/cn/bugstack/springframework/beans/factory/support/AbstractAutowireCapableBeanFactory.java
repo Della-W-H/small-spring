@@ -25,4 +25,5 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         return bean;
     }
 
+
 }
