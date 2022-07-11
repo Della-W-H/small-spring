@@ -6,9 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ * 默认单例bean注册表 即单例bean注册表的具体实现类
+ * 只有两个方法 获取单例 和 注册单例
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 

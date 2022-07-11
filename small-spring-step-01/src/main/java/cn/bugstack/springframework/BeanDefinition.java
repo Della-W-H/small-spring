@@ -1,9 +1,9 @@
 package cn.bugstack.springframework;
 
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ * 目前 Bean定义中 只有一个Object用于存放Bean对象。
+ * 在spring源码中 这个类，确切的说这个接口中还有其他信息
+ * 如 SCOPE_SINGLETON, SCOPE_PROTOTYPE, ROLE_APPLICATION, ROLE_SUPPORT, ROLE_INFRASTRUCTURE 以及bean class等信息
  */
 public class BeanDefinition {
 

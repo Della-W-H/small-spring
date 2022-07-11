@@ -2,16 +2,17 @@ package cn.bugstack.springframework.beans.factory.support;
 
 import cn.bugstack.springframework.beans.BeansException;
 import cn.bugstack.springframework.beans.factory.config.BeanDefinition;
+import cn.bugstack.springframework.beans.factory.config.BeanDefinitionRegistry;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ * 默认bean工厂实现类
  */
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry {
+
+    //此处为bean的class文件数据集合 有别于DefaultSingletonBeanRegistry中的singletonObjects的具体实现类集合对象
 
     private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
 

@@ -4,9 +4,7 @@ import cn.bugstack.springframework.beans.BeansException;
 import cn.bugstack.springframework.beans.factory.config.BeanDefinition;
 
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ * 抽象实例化注入单例容器工厂类
  */
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory {
 
@@ -14,10 +12,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected Object createBean(String beanName, BeanDefinition beanDefinition) throws BeansException {
         Object bean;
         try {
+            //todo 此处有一个坑：无参实例化可以 这样 有参的呢？如何入参呢？
             bean = beanDefinition.getBeanClass().newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new BeansException("Instantiation of bean failed", e);
         }
+
+        //这个是父类（AbstractBeanFactory）的父类（DefaultSingletonBeanFactory） 的方法
+        //即将 实例化后的对象添加到单例容器中
 
         addSingleton(beanName, bean);
         return bean;
