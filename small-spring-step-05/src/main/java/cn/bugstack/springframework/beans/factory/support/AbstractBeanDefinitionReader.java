@@ -32,4 +32,5 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
         return resourceLoader;
     }
 
+    //抽象类本身不需要实现 父接口的所有方法哦 注意
 }

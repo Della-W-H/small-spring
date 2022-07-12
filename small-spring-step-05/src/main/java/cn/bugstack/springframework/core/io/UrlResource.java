@@ -12,18 +12,25 @@ public class UrlResource implements Resource{
 
     private final URL url;
 
+    //此类不存在 无参构造函数
+
     public UrlResource(URL url) {
         Assert.notNull(url,"URL must not be null");
         this.url = url;
     }
 
+    @SuppressWarnings("all")
     @Override
     public InputStream getInputStream() throws IOException {
+
         URLConnection con = this.url.openConnection();
+
         try {
             return con.getInputStream();
         }
         catch (IOException ex){
+            //如果是 一种 获取 云端或者 远程配置的 方式 就得 手动关闭 远端连接
+
             if (con instanceof HttpURLConnection){
                 ((HttpURLConnection) con).disconnect();
             }

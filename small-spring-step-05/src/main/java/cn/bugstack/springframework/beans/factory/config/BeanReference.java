@@ -1,7 +1,7 @@
 package cn.bugstack.springframework.beans.factory.config;
 
 /**
- * Bean 的引用
+ * Bean 的引用  具体暂用beanName代替
  */
 public class BeanReference {
 

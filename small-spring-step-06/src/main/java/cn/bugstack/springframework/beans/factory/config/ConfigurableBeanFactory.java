@@ -14,6 +14,8 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 
     String SCOPE_PROTOTYPE = "prototype";
 
+    //修改bean对象属性
+
     void addBeanPostProcessor(BeanPostProcessor beanPostProcessor);
 
 }

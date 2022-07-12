@@ -7,9 +7,13 @@ import net.sf.cglib.proxy.NoOp;
 
 import java.lang.reflect.Constructor;
 
+/**
+ * cglib 动态代理实例化 策略
+ */
 public class CglibSubclassingInstantiationStrategy implements InstantiationStrategy {
 
     @Override
+    @SuppressWarnings("all")
     public Object instantiate(BeanDefinition beanDefinition, String beanName, Constructor ctor, Object[] args) throws BeansException {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(beanDefinition.getBeanClass());

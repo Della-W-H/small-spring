@@ -3,6 +3,7 @@ package cn.bugstack.springframework.beans.factory.config;
 import cn.bugstack.springframework.beans.PropertyValues;
 
 /**
+ * 一如既往 bean对象实例化之前 存储对象信息 的类
  */
 public class BeanDefinition {
 
