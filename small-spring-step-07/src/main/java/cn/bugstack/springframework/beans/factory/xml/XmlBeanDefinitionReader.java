@@ -19,10 +19,8 @@ import java.io.InputStream;
 
 /**
  * Bean definition reader for XML bean definitions.
+ * 这个类写的很漂亮啊 注意 loadBeanDefinitions()方法的四重 重载 学习 到其中的精髓 大大滴赚到
  * <p>
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
  */
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
@@ -66,6 +64,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         }
     }
 
+    @SuppressWarnings("all")
     protected void doLoadBeanDefinitions(InputStream inputStream) throws ClassNotFoundException {
         Document doc = XmlUtil.readXML(inputStream);
         Element root = doc.getDocumentElement();

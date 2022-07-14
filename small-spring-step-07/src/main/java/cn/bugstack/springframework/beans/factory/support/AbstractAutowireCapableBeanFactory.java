@@ -20,11 +20,8 @@ import java.lang.reflect.Method;
  * with the full capabilities specified by the class.
  * Implements the {@link cn.bugstack.springframework.beans.factory.config.AutowireCapableBeanFactory}
  * interface in addition to AbstractBeanFactory's {@link #createBean} method.
- *
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
  */
+@SuppressWarnings("all")
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory {
 
     private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
@@ -82,6 +79,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                 if (value instanceof BeanReference) {
                     // A 依赖 B，获取 B 的实例化
                     BeanReference beanReference = (BeanReference) value;
+                    //这里 会将 此注入 此对象的bean 进行 初始化 并 加以注入 即 又会 以再一次 调用回来 类似于一个 栈 的形式
                     value = getBean(beanReference.getBeanName());
                 }
                 // 属性填充
@@ -104,7 +102,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         // 1. 执行 BeanPostProcessor Before 处理
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 
-        // 执行 Bean 对象的初始化方法
+        // 执行 Bean 对象的初始化方法 初始化方法不意味着初始化 笨蛋 这个已经初始化完毕了
         try {
             invokeInitMethods(beanName, wrappedBean, beanDefinition);
         } catch (Exception e) {

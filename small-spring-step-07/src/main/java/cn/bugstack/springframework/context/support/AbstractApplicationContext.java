@@ -17,13 +17,11 @@ import java.util.Map;
  * <p>
  * 抽象应用上下文
  * <p>
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
  */
 public abstract class AbstractApplicationContext extends DefaultResourceLoader implements ConfigurableApplicationContext {
 
     @Override
+    @SuppressWarnings("all")
     public void refresh() throws BeansException {
         // 1. 创建 BeanFactory，并加载 BeanDefinition
         refreshBeanFactory();
@@ -32,12 +30,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         ConfigurableListableBeanFactory beanFactory = getBeanFactory();
 
         // 3. 在 Bean 实例化之前，执行 BeanFactoryPostProcessor (Invoke factory processors registered as beans in the context.)
+        //即 此时先实例化 BeanFactoryPostProcessor对象 此step-07中并没有设置
         invokeBeanFactoryPostProcessors(beanFactory);
 
-        // 4. BeanPostProcessor 需要提前于其他 Bean 对象实例化之前执行注册操作
+        // 4. BeanPostProcessor 需要提前于其他 Bean 对象实例化之前执行注册操作 此step-07中并没有设置
         registerBeanPostProcessors(beanFactory);
 
-        // 5. 提前实例化单例Bean对象
+        // 5. 提前实例化单例Bean对象 此demo中并没有 定义单例对象 看其实现逻辑会发现 他就是 挨个实例化 beanDefinition中得对象
         beanFactory.preInstantiateSingletons();
     }
 
@@ -86,6 +85,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 
     @Override
     public void registerShutdownHook() {
+        //这个方法可以记下来啊 有现方法引用
         Runtime.getRuntime().addShutdownHook(new Thread(this::close));
     }
 

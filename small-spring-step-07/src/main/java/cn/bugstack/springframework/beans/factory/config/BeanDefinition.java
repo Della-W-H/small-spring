@@ -3,9 +3,7 @@ package cn.bugstack.springframework.beans.factory.config;
 import cn.bugstack.springframework.beans.PropertyValues;
 
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ * 将 bean 资源信息 加载进jvm 中 时所 抽象出来的封装对象
  */
 public class BeanDefinition {
 

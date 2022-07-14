@@ -34,6 +34,9 @@ public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContex
      * @throws BeansException
      */
     public ClassPathXmlApplicationContext(String[] configLocations) throws BeansException {
+        
+        //在测试类中调用debug 模式 可以看见一个基础java知识点 及 一个类被new出来时 会不停的访问这个类 依次继承的父类 并调用其中的构造方法 从而取到 父类中的所有属性值
+        
         this.configLocations = configLocations;
         refresh();
     }

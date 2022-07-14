@@ -23,6 +23,10 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
     }
 
     private DefaultListableBeanFactory createBeanFactory() {
+
+        //通过执行流程 debug 观察可以发现又一个 基础点 即 当执行new时 若是 类中或者父类中 存在new 对象的情况下 这个new 操作都会被执行
+        //同时所有的层级父类 构造方法都会被执行 以更有效地获取 所有父类的属性数据
+
         return new DefaultListableBeanFactory();
     }
 

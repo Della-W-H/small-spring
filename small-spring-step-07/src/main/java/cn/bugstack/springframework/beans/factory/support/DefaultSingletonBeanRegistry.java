@@ -9,9 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ * 默认 单例工厂
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
@@ -32,6 +30,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         disposableBeans.put(beanName, bean);
     }
 
+    @SuppressWarnings("all")
     public void destroySingletons() {
         Set<String> keySet = this.disposableBeans.keySet();
         Object[] disposableBeanNames = keySet.toArray();

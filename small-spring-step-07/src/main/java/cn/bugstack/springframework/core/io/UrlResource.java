@@ -17,6 +17,7 @@ public class UrlResource implements Resource{
         this.url = url;
     }
 
+    @SuppressWarnings("all")
     @Override
     public InputStream getInputStream() throws IOException {
         URLConnection con = this.url.openConnection();

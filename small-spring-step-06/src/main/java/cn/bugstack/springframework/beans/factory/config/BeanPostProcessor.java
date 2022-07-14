@@ -12,7 +12,7 @@ public interface BeanPostProcessor {
 
     /**
      * 在 Bean 对象执行初始化方法之前，执行此方法
-     *
+     * todo 确切的说 这不是 执行对象初始化之前的 操作 而是 将对象放入 spring容器前 的 操作 此时对象已经初始化 完毕了
      * @param bean
      * @param beanName
      * @return

@@ -27,15 +27,19 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         refreshBeanFactory();
 
         // 2. 获取 BeanFactory
+        //通过debug 测试中 流程 可以看出 这边的时候 xml 文件中 所有bean的 初步definition信息 已经被加载中 factory 的 beanDefinition容器中了
         ConfigurableListableBeanFactory beanFactory = getBeanFactory();
 
         // 3. 在 Bean 实例化之前，执行 BeanFactoryPostProcessor (Invoke factory processors registered as beans in the context.)
+        //此时实例化 所有的BeanFactoryPostProcessor 对象 并执行其中的方法 以改变 所有 你想改的 还未实例化 的 beanDefinition 数据信息
         invokeBeanFactoryPostProcessors(beanFactory);
 
         // 4. BeanPostProcessor 需要提前于其他 Bean 对象实例化之前执行注册操作
+        //此时实例化 所有的 BeanPostProcessor 对象 并执行 其中 的方法 已改变所有 你想 改变的 beanDefinition 数据信息
         registerBeanPostProcessors(beanFactory);
 
         // 5. 提前实例化单例Bean对象
+        //此时 两个容器中 BeanDefinition容器 和 SingletonObjects中 前者4份 后者 两份数据 即UserDao和UserService还未实例化
         beanFactory.preInstantiateSingletons();
     }
 
@@ -46,6 +50,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     private void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
         Map<String, BeanFactoryPostProcessor> beanFactoryPostProcessorMap = beanFactory.getBeansOfType(BeanFactoryPostProcessor.class);
         for (BeanFactoryPostProcessor beanFactoryPostProcessor : beanFactoryPostProcessorMap.values()) {
+            //就是此处 改变了 还没有进行实例化 的 beanDefinition 数据信息
             beanFactoryPostProcessor.postProcessBeanFactory(beanFactory);
         }
     }

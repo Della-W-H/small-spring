@@ -26,14 +26,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         Object bean = null;
         try {
             bean = createBeanInstance(beanDefinition, beanName, args);
-            // 给 Bean 填充属性
+            // 给 Bean 填充属性 这里的 填充属性指定就是 引用对象 数据 的 填充 目前的demo还未涉及 循环引用的处理
             applyPropertyValues(beanName, bean, beanDefinition);
-            // 执行 Bean 的初始化方法和 BeanPostProcessor 的前置和后置处理方法
+            // 执行 Bean 的初始化方法和 BeanPostProcessor 的前置和后置处理方法 注意此时 生成的bean对象还未放入 spring容器中哦
             bean = initializeBean(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeansException("Instantiation of bean failed", e);
         }
 
+        //此处 才是将 生成的bean对象放入 spring容器中
         addSingleton(beanName, bean);
         return bean;
     }
@@ -88,6 +89,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 
         // 待完成内容：invokeInitMethods(beanName, wrappedBean, beanDefinition);
+        //todo 看样子 AOP 在这里处理没跑了
         invokeInitMethods(beanName, wrappedBean, beanDefinition);
 
         // 2. 执行 BeanPostProcessor After 处理
