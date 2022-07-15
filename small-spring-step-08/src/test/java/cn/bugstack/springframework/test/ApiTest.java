@@ -4,16 +4,12 @@ import cn.bugstack.springframework.context.support.ClassPathXmlApplicationContex
 import cn.bugstack.springframework.test.bean.UserService;
 import org.junit.Test;
 
-/**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
- */
 public class ApiTest {
 
     @Test
     public void test_xml() {
         // 1.初始化 BeanFactory
+        //todo 一个 小小的new 给你带来了一个 大大的 世界
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
         applicationContext.registerShutdownHook();
 

@@ -10,6 +10,8 @@ import cn.bugstack.springframework.beans.factory.HierarchicalBeanFactory;
  */
 public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, SingletonBeanRegistry {
 
+    //todo 这两个定义的属性 究竟咋用到的 目前为止 还是不太清楚
+
     String SCOPE_SINGLETON = "singleton";
 
     String SCOPE_PROTOTYPE = "prototype";

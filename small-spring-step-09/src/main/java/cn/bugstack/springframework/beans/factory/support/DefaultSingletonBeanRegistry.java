@@ -10,16 +10,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
- */
+
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
     /**
      * Internal marker for a null singleton object:
      * used as marker value for concurrent Maps (which don't support null values).
+     *
+     * 说人话 就是 他的一个抽象子类 FactoryBeanRegistrySupport 中 的concurrentMap并不支持 直接存null 值 所以 对于空对象就是一个 Object的比较
      */
     protected static final Object NULL_OBJECT = new Object();
 

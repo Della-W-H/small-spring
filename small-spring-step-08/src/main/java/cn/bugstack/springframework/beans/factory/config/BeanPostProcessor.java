@@ -8,14 +8,11 @@ import cn.bugstack.springframework.beans.BeansException;
  *
  * 用于修改新实例化 Bean 对象的扩展点
  *
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
  */
 public interface BeanPostProcessor {
 
     /**
-     * 在 Bean 对象执行初始化方法之前，执行此方法
+     * 在 Bean 对象执行初始化方法之前，执行此方法，bean对象此时已经实例化了
      *
      * @param bean
      * @param beanName

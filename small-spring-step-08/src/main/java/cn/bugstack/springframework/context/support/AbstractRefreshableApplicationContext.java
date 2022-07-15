@@ -11,9 +11,7 @@ import cn.bugstack.springframework.beans.factory.support.DefaultListableBeanFact
  * Typically (but not necessarily), such a context will be driven by
  * a set of config locations to load bean definitions from.
  *
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ *
  */
 public abstract class AbstractRefreshableApplicationContext extends AbstractApplicationContext {
 
@@ -27,6 +25,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
     }
 
     private DefaultListableBeanFactory createBeanFactory() {
+        //todo 一个 小小的new 给你带来了一个 大大的 世界
         return new DefaultListableBeanFactory();
     }
 
