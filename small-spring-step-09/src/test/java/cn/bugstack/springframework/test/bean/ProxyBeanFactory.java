@@ -7,6 +7,12 @@ import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * todo mapper生效到的代理模式
+ * 用到了类似于 mybatis中xml文件 如何生效的处理手段 即 代理模式
+ * myBatis就是实现了一个MapperFactoryBean类 在getObject方法中提供了SqlSession对执行CRUD方法的操作
+ *
+ */
 public class ProxyBeanFactory implements FactoryBean<IUserDao> {
 
     @Override
@@ -23,7 +29,8 @@ public class ProxyBeanFactory implements FactoryBean<IUserDao> {
             
             return "你被代理了 " + method.getName() + "：" + hashMap.get(args[0].toString());
         };
-        return (IUserDao) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]{IUserDao.class}, handler);
+        IUserDao iUserDao = (IUserDao) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]{IUserDao.class}, handler);
+        return iUserDao;
     }
 
     @Override

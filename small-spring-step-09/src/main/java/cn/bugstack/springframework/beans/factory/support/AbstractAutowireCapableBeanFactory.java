@@ -41,7 +41,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             throw new BeansException("Instantiation of bean failed", e);
         }
         // 注册实现了 DisposableBean 接口的 Bean 对象 将这些对象信息存储到 registory中的disposable相关容器中 当执行hook方法时会自动 执行定义好的销毁方法
-        //todo 并不是销毁容器中的 对象 只是执行 对象的销毁方法
+        //todo 并不是销毁容器中的 对象 只是注册 以后会执行的对象的销毁方法 等到hook钩子 方法被执行 即销毁方法都会被调用
         registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
 
         // 判断 SCOPE_SINGLETON、SCOPE_PROTOTYPE
@@ -108,7 +108,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
 
-        // invokeAwareMethods
+        // invokeAwareMethods 此处意味 bean对象自身必须得 继承了 设定好的 的 Aware 接口
         if (bean instanceof Aware) {
             if (bean instanceof BeanFactoryAware) {
                 ((BeanFactoryAware) bean).setBeanFactory(this);
@@ -139,6 +139,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     private void invokeInitMethods(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
         // 1. 实现接口 InitializingBean
         if (bean instanceof InitializingBean) {
+            //目前 而言 这个方法 还是 接口继承类 的 自定义开发
+            //整个流程下来 这个spring系统向外暴露的东西太多了
             ((InitializingBean) bean).afterPropertiesSet();
         }
 

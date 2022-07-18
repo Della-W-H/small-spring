@@ -25,6 +25,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
     }
 
     private DefaultListableBeanFactory createBeanFactory() {
+        //todo 就是这个地方 穿起了 beanFactory核心bean工厂 耦合起来了 一切 都 起来了
         return new DefaultListableBeanFactory();
     }
 

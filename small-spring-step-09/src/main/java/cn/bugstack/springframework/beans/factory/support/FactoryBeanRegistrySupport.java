@@ -30,7 +30,11 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
             Object object = this.factoryBeanObjectCache.get(beanName);
             if (object == null) {
                 object = doGetObjectFromFactoryBean(factory, beanName);
+                //此处 即将 生成的的代理类 放入 factoryBeanObjectCache中
                 this.factoryBeanObjectCache.put(beanName, (object != null ? object : NULL_OBJECT));
+                //此处 因为是继承了 DefaultSingletonBeanRegistry对象 以进拥有了 SingletonObjects容器 可以直接放入了 单例容器中了
+                //但是 为啥不放入呢？ 理解上而言 其实已经放入了
+                //addSingleton(beanName,object);
             }
             return (object != NULL_OBJECT ? object : null);
         } else {
@@ -40,6 +44,7 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 
     private Object doGetObjectFromFactoryBean(final FactoryBean factory, final String beanName){
         try {
+            //todo 对外暴露 的 FactoryBean对象 自己实现的 getObject()方法  此demo中 用的是JDK的动态代理生成的代理对象
             return factory.getObject();
         } catch (Exception e) {
             throw new BeansException("FactoryBean threw exception on object[" + beanName + "] creation", e);

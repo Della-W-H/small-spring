@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 相比之前的 版本 从继承DefaultSingletonBeanRegistry 实现类 改为 继承 FactoryBeanRegistrySupport抽象类
  * BeanDefinition注册表接口
  */
 public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
@@ -47,11 +47,14 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
         Object sharedInstance = getSingleton(name);
         if (sharedInstance != null) {
             // 如果是 FactoryBean，则需要调用 FactoryBean#getObject
+            //todo 此处有个疑问 getObject()方法生成的代理类 如果是单例的 会放入singletonObjects对象容器中吗？ 代码逻辑上貌似 不会啊 这样问题就大了啊
+            //todo 不一定正确 解：已经提前 暴露了 创建对象的 引用了 但是 如果是 FactoryBean接口实现类 会 将生成的 代理类 重新赋值给 这个 引用 原来的 FactoryBean对象 会被 GC回收
             return (T) getObjectForBeanInstance(sharedInstance, name);
         }
 
         BeanDefinition beanDefinition = getBeanDefinition(name);
         Object bean = createBean(name, beanDefinition, args);
+        //返回的 是一个生成的代理对象
         return (T) getObjectForBeanInstance(bean, name);
     }
 

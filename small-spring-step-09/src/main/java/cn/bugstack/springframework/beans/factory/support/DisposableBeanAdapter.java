@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
  * Adapter that implements the {@link DisposableBean} and {@link Runnable} interfaces
  * performing various destruction steps on a given bean instance:
  * <p>
+ *     todo 注意这个 销毁方法的 disposable 的实现模式 即 适配器模式的灵活运用
  */
 public class DisposableBeanAdapter implements DisposableBean {
 
