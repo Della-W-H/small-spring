@@ -7,9 +7,7 @@ import java.util.EventListener;
  * Based on the standard <code>java.util.EventListener</code> interface
  * for the Observer design pattern.
  *
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ * 事件接收者接口
  */
 public interface ApplicationListener<E extends ApplicationEvent> extends EventListener {
 

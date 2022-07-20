@@ -25,6 +25,7 @@ public class ClassPathResource implements Resource {
 
     @Override
     public InputStream getInputStream() throws IOException {
+        //还是通过classLoader将配置在xml中的数据加载进内存空间中 并以io流的形式
         InputStream is = classLoader.getResourceAsStream(path);
         if (is == null) {
             throw new FileNotFoundException(

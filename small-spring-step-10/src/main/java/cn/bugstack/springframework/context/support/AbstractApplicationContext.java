@@ -24,17 +24,18 @@ import java.util.Map;
  * <p>
  * 抽象应用上下文
  * <p>
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ *
  */
 public abstract class AbstractApplicationContext extends DefaultResourceLoader implements ConfigurableApplicationContext {
 
     public static final String APPLICATION_EVENT_MULTICASTER_BEAN_NAME = "applicationEventMulticaster";
 
+    //引用上下文中 顶级抽象类中 放入了 事件广播
+
     private ApplicationEventMulticaster applicationEventMulticaster;
 
     @Override
+    @SuppressWarnings("all")
     public void refresh() throws BeansException {
         // 1. 创建 BeanFactory，并加载 BeanDefinition
         refreshBeanFactory();
@@ -43,6 +44,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         ConfigurableListableBeanFactory beanFactory = getBeanFactory();
 
         // 3. 添加 ApplicationContextAwareProcessor，让继承自 ApplicationContextAware 的 Bean 对象都能感知所属的 ApplicationContext
+        //todo 注意一下 这个 继承了BeanPostProcessor的Aware感知类并没有被放入 SingletonBean容器中 而其他的 都会放入其中 但是都会统一放入 AbstractBeanFactory类中的名为beanPostProcessors的list形式的容器中 只是其他的processor还会同时存在于SingletonObjects容器中
         beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
 
         // 4. 在 Bean 实例化之前，执行 BeanFactoryPostProcessor (Invoke factory processors registered as beans in the context.)
@@ -85,6 +87,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     private void initApplicationEventMulticaster() {
         ConfigurableListableBeanFactory beanFactory = getBeanFactory();
         applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
+
         beanFactory.registerSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, applicationEventMulticaster);
     }
 
@@ -98,6 +101,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     private void finishRefresh() {
         publishEvent(new ContextRefreshedEvent(this));
     }
+
+    //发布事件 广播着广播事件
 
     @Override
     public void publishEvent(ApplicationEvent event) {

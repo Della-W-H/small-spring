@@ -10,16 +10,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
- */
+
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
     /**
      * Internal marker for a null singleton object:
      * used as marker value for concurrent Maps (which don't support null values).
+     *
+     * todo 注意了 这里也有一个 基础知识点的 即static类变量 的 初始化 可以说是在类初始化之前  如此demo中的AbstractRefreshableApplicationContext类中的操作 new DefaultListableBeanFactory()操作的时候 第一步是new 被调用还没执行时  第二步就直接 跳到了这个顶级抽象父类中 没有经过中间抽象继承类的往返调用
      */
     protected static final Object NULL_OBJECT = new Object();
 
@@ -40,6 +38,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         disposableBeans.put(beanName, bean);
     }
 
+    @SuppressWarnings("ALL")
     public void destroySingletons() {
         Set<String> keySet = this.disposableBeans.keySet();
         Object[] disposableBeanNames = keySet.toArray();

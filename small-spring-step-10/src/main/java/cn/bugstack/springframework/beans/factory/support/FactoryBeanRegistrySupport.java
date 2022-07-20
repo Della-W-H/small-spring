@@ -10,10 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Support base class for singleton registries which need to handle
  * {@link cn.bugstack.springframework.beans.factory.FactoryBean} instances,
  * integrated with {@link DefaultSingletonBeanRegistry}'s singleton management.
- * <p>
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ *
  */
 public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanRegistry {
 
@@ -27,6 +24,7 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
         return (object != NULL_OBJECT ? object : null);
     }
 
+    @SuppressWarnings("all")
     protected Object getObjectFromFactoryBean(FactoryBean factory, String beanName) {
         if (factory.isSingleton()) {
             Object object = this.factoryBeanObjectCache.get(beanName);

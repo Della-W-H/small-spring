@@ -12,10 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
- * <p>
+ *
  * BeanDefinition注册表接口
  */
 public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
@@ -45,6 +42,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
         return (T) getBean(name);
     }
 
+    @SuppressWarnings("all")
     protected <T> T doGetBean(final String name, final Object[] args) {
         Object sharedInstance = getSingleton(name);
         if (sharedInstance != null) {
@@ -58,6 +56,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     }
 
     private Object getObjectForBeanInstance(Object beanInstance, String beanName) {
+        //todo 这个就是开启 mybatis运用反射替换的mapper层对应的代理类实现的大门
+
         if (!(beanInstance instanceof FactoryBean)) {
             return beanInstance;
         }

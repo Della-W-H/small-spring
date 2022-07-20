@@ -2,11 +2,6 @@ package cn.bugstack.springframework.beans.factory.config;
 
 import cn.bugstack.springframework.beans.PropertyValues;
 
-/**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
- */
 public class BeanDefinition {
 
     String SCOPE_SINGLETON = ConfigurableBeanFactory.SCOPE_SINGLETON;
@@ -33,6 +28,7 @@ public class BeanDefinition {
 
     public BeanDefinition(Class beanClass, PropertyValues propertyValues) {
         this.beanClass = beanClass;
+        //瞧这写法 多么优雅 永远不会 出现 null 导致的空指针
         this.propertyValues = propertyValues != null ? propertyValues : new PropertyValues();
     }
 
