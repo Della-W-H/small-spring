@@ -2,12 +2,10 @@ package cn.bugstack.springframework.test.bean;
 
 import java.util.Random;
 
-/**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
- */
+
 public class UserService implements IUserService {
+
+    //注意一下 这边并没有 spring.xml配置文件中对应的属性信息 那么这些信息被配置上了吗？应该是有的？但是他们可以被调用出来吗？
 
     public String queryUserInfo() {
         try {

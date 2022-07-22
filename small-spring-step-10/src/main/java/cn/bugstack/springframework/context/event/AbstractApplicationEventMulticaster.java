@@ -17,7 +17,7 @@ import java.util.Set;
 /**
  * Abstract implementation of the {@link ApplicationEventMulticaster} interface,
  * providing the basic listener registration facility.
- *
+ * 注意哦 抽象类不是必须实现 所属接口所有到的初始方法哦 基础中的基础哦
  */
 public abstract class AbstractApplicationEventMulticaster implements ApplicationEventMulticaster, BeanFactoryAware {
 
@@ -49,6 +49,7 @@ public abstract class AbstractApplicationEventMulticaster implements Application
      * non-matching listeners early, based on cached matching information.
      * @return a Collection of ApplicationListeners
      * @see cn.bugstack.springframework.context.ApplicationListener
+     * 一句话即 判断有哪些注册好的监听器 对 事件感兴趣
      */
     protected Collection<ApplicationListener> getApplicationListeners(ApplicationEvent event) {
         LinkedList<ApplicationListener> allListeners = new LinkedList<ApplicationListener>();
@@ -59,7 +60,8 @@ public abstract class AbstractApplicationEventMulticaster implements Application
     }
 
     /**
-     * 监听器是否对该事件感兴趣
+     * 监听器是否对该事件感兴趣 的实现逻辑 核心即是判断 对象泛型和 给定的事件是否 匹配
+     * todo 这个小小的api 重要也不重要
      */
     @SuppressWarnings("all")
     protected boolean supportsEvent(ApplicationListener<ApplicationEvent> applicationListener, ApplicationEvent event) {
@@ -67,18 +69,23 @@ public abstract class AbstractApplicationEventMulticaster implements Application
 
         // 按照 CglibSubclassingInstantiationStrategy、SimpleInstantiationStrategy 不同的实例化类型，需要判断后获取目标 class
         Class<?> targetClass = ClassUtils.isCglibProxyClass(listenerClass) ? listenerClass.getSuperclass() : listenerClass;
+        //从堆栈信息可以看出来 这个拿出来的就是 包含泛型信息的
         Type genericInterface = targetClass.getGenericInterfaces()[0];
 
+        //拿出 泛型 对象信息
         Type actualTypeArgument = ((ParameterizedType) genericInterface).getActualTypeArguments()[0];
+        //拿出泛型 名称
         String className = actualTypeArgument.getTypeName();
         Class<?> eventClassName;
         try {
+            //加载泛型对象 class文件数据
             eventClassName = Class.forName(className);
         } catch (ClassNotFoundException e) {
             throw new BeansException("wrong event class name: " + className);
         }
         // 判定此 eventClassName 对象所表示的类或接口与指定的 event.getClass() 参数所表示的类或接口是否相同，或是否是其超类或超接口。
         // isAssignableFrom是用来判断子类和父类的关系的，或者接口的实现类和接口的关系的，默认所有的类的终极父类都是Object。如果A.isAssignableFrom(B)结果是true，证明B可以转换成为A,也就是A可以由B转换而来，即B继承A。
+        //true 即 表示 感兴趣
         return eventClassName.isAssignableFrom(event.getClass());
     }
 

@@ -26,10 +26,12 @@ public class Cglib2AopProxy implements AopProxy {
     }
 
     @Override
+    @SuppressWarnings("all")
     public Object getProxy() {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(advised.getTargetSource().getTarget().getClass());
         enhancer.setInterfaces(advised.getTargetSource().getTargetClass());
+        //todo 注意比较 此处和 实例化策略中 所使用的cglib 实例化的不同
         enhancer.setCallback(new DynamicAdvisedInterceptor(advised));
         return enhancer.create();
     }
@@ -42,6 +44,11 @@ public class Cglib2AopProxy implements AopProxy {
             this.advised = advised;
         }
 
+        /**
+         *  todo cglib代理
+         * 如果说 JDK代理的话 任何被代理的方法都会通过 invoke方法被执行。 那么对于 cglib代理而言那就是 通过intercept并不 他只是会执行Callback类中的方法 一如 之前实例化策略中的demo只是执行了hashCode()方法
+         *    通过IDEA工具可以看见 栈帧中intercept方法的 入参全被 赋值成功了 你要思考一下 他是如何赋值成功的
+         */
         @Override
         public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
             CglibMethodInvocation methodInvocation = new CglibMethodInvocation(advised.getTargetSource().getTarget(), method, objects, methodProxy);

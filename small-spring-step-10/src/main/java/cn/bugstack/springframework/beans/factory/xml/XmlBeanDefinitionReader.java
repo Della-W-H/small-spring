@@ -39,6 +39,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         try {
             try (InputStream inputStream = resource.getInputStream()) {
                 doLoadBeanDefinitions(inputStream);
+                //至此 所有的beanDefinition都被记录在案
             }
         } catch (IOException | ClassNotFoundException e) {
             throw new BeansException("IOException parsing XML document from " + resource, e);

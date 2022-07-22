@@ -14,26 +14,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
-    <name>small-spring-step-12</name>
-    <description>
-        small spring is easy study Spring！
-    </description>
-    <url>https://github.com/fuzhengwei/small-spring</url>
-
-    <developers>
-        <developer>
-            <id>small-spring</id>
-            <name>小傅哥</name>
-            <email>184172133@qq.com</email>
-        </developer>
-    </developers>
-
-    <licenses>
-        <license>
-            <name>The MIT License</name>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/aopalliance/aopalliance -->

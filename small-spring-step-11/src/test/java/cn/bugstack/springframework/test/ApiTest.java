@@ -17,12 +17,12 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ * 这个demo中完全没有使用到spring容器
  */
 public class ApiTest {
+
 
     @Test
     public void test_aop() throws NoSuchMethodException {
@@ -65,6 +65,7 @@ public class ApiTest {
     }
 
     @Test
+    @SuppressWarnings("all")
     public void test_proxy_method() {
         // 目标对象(可以替换成任何的目标对象)
         Object targetObj = new UserService();

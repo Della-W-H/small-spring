@@ -13,6 +13,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableA
 
     @Override
     protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) {
+        //又将 beanDefinitionReader和ApplicationContext上下文容器 耦合起来了
         XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory, this);
         String[] configLocations = getConfigLocations();
         if (null != configLocations){
