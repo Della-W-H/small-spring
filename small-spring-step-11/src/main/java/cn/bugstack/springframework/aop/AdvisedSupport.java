@@ -7,7 +7,7 @@ import org.aopalliance.intercept.MethodInterceptor;
  * These are not themselves AOP proxies, but subclasses of this class are
  * normally factories from which AOP proxy instances are obtained directly.
  * <p>
- *
+ *   切入点 功能组 管理对象
  */
 public class AdvisedSupport {
 

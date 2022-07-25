@@ -6,6 +6,7 @@ import org.aopalliance.intercept.MethodInvocation;
 public class UserServiceInterceptor implements MethodInterceptor {
 
     @Override
+    @SuppressWarnings("all")
     public Object invoke(MethodInvocation invocation) throws Throwable {
         long start = System.currentTimeMillis();
         try {

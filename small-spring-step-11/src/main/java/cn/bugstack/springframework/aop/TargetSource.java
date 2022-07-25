@@ -5,7 +5,7 @@ package cn.bugstack.springframework.aop;
  * an AOP invocation, which will be invoked via reflection if no around
  * advice chooses to end the interceptor chain itself.
  * <p>
- * 被代理的目标对象
+ * 被代理的目标对象 抽象实体
  * <p>
  *
  */
@@ -22,7 +22,7 @@ public class TargetSource {
      * <p>Can return <code>null</code>, although certain usages of a
      * <code>TargetSource</code> might just work with a predetermined
      * target class.
-     * @return the type of targets returned by this {@link TargetSource}
+     * @return the type of targets returned by this {@link TargetSource} 看源码 返回的是这个字节码对象所有继承的或者实现的接口 不论这个字节码对象是class还是interface
      */
     public Class<?>[] getTargetClass(){
         return this.target.getClass().getInterfaces();

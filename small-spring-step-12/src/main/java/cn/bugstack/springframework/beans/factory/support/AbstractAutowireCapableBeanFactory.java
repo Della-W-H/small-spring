@@ -54,6 +54,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     protected Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {
+        //若是 代理对象 即 返回代理类
         Object bean = applyBeanPostProcessorsBeforeInstantiation(beanDefinition.getBeanClass(), beanName);
         if (null != bean) {
             bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
@@ -63,6 +64,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, String beanName) {
         for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            //代理类 只有 实现了 InstantiationAwareBeanPostProcessor接口 才能实现 代理链路处理
             if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
                 Object result = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessBeforeInstantiation(beanClass, beanName);
                 if (null != result) return result;

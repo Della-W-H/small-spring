@@ -7,6 +7,7 @@ import cn.bugstack.springframework.beans.BeansException;
  * and a callback after instantiation but before explicit properties are set or
  * autowiring occurs.
  * <p>
+ *     也即只有实现了 此接口的对象 才可以执行代理 链路
  */
 public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 

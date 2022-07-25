@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 /**
  * Part of a {@link Pointcut}: Checks whether the target method is eligible for advice.
  *
- *
+ * 切入点 判断是否 可切入的 判断方法
  */
 public interface MethodMatcher {
 

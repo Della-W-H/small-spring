@@ -62,6 +62,7 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
     }
 
     private boolean isInfrastructureClass(Class<?> beanClass) {
+        //本身就是切点 组织结构 类对象 无法成为 可被代理类
         return Advice.class.isAssignableFrom(beanClass) || Pointcut.class.isAssignableFrom(beanClass) || Advisor.class.isAssignableFrom(beanClass);
     }
 

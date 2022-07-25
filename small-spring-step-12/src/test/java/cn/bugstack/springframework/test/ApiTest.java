@@ -30,7 +30,7 @@ public class ApiTest {
 
     @Before
     public void init() {
-        // 目标对象
+        // todo 目标对象 这边是 多态形式 为啥呢？若这边不是子类的实例指向父类的引用 这个炸了啊 test_proxyFactory()中 就无法调用UserService方法了
         IUserService userService = new UserService();
         // 组装代理信息
         advisedSupport = new AdvisedSupport();
@@ -42,6 +42,7 @@ public class ApiTest {
     @Test
     public void test_proxyFactory() {
         advisedSupport.setProxyTargetClass(false); // false/true，JDK动态代理、CGlib动态代理
+        //因为上面存在了多态 所以生成的代理类 本质上还是 上面父类引用的同一种玩意
         IUserService proxy = (IUserService) new ProxyFactory(advisedSupport).getProxy();
 
         System.out.println("测试结果：" + proxy.queryUserInfo());
@@ -50,8 +51,11 @@ public class ApiTest {
     @Test
     public void test_beforeAdvice() {
         UserServiceBeforeAdvice beforeAdvice = new UserServiceBeforeAdvice();
-        MethodBeforeAdviceInterceptor interceptor = new MethodBeforeAdviceInterceptor(beforeAdvice);
-        advisedSupport.setMethodInterceptor(interceptor);
+        //todo 回来改成UseServiceInterceptor()试试  改造成功
+        //MethodBeforeAdviceInterceptor interceptor = new MethodBeforeAdviceInterceptor(beforeAdvice);
+        UserServiceInterceptor userServiceInterceptor = new UserServiceInterceptor(beforeAdvice);
+        //advisedSupport.setMethodInterceptor(interceptor);
+        advisedSupport.setMethodInterceptor(userServiceInterceptor);
 
         IUserService proxy = (IUserService) new ProxyFactory(advisedSupport).getProxy();
         System.out.println("测试结果：" + proxy.queryUserInfo());
@@ -76,6 +80,7 @@ public class ApiTest {
             advisedSupport.setMethodMatcher(advisor.getPointcut().getMethodMatcher());
             advisedSupport.setProxyTargetClass(true); // false/true，JDK动态代理、CGlib动态代理
 
+            //todo 如果已经替换为了 代理类 则对于cglib方面 调用任何 方法都会 转去调用interceptor()方法 对于JDK动态代理会去 调用invoke方法
             IUserService proxy = (IUserService) new ProxyFactory(advisedSupport).getProxy();
             System.out.println("测试结果：" + proxy.queryUserInfo());
         }
@@ -103,7 +108,7 @@ public class ApiTest {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                 if (methodMatcher.matches(method, targetObj.getClass())) {
-                    // 方法拦截器
+                    // todo 方法拦截器 此处也是类似于一个 方法引用的 lambda 形式传值
                     MethodInterceptor methodInterceptor = invocation -> {
                         long start = System.currentTimeMillis();
                         try {
