@@ -17,7 +17,7 @@ import java.util.Set;
  * <p>
  * 切点表达式
  * <p>
- *
+ *     即实现切点表达式其中耦合功能的 具体 切点表达式类
  */
 public class AspectJExpressionPointcut implements Pointcut, ClassFilter, MethodMatcher {
 

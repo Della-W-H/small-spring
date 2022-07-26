@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
  * Advice invoked before a method is invoked. Such advices cannot
  * prevent the method call proceeding, unless they throw a Throwable.
  * <p>
+ *     在Spring框架中，Advice都是通过方法拦截器MethodInterceptor实现的，环绕Advice类似于一个拦截器链路，Before AfterAdvice，此Demo中暂时只有这
  */
 public interface MethodBeforeAdvice extends BeforeAdvice {
 

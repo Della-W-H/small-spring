@@ -6,7 +6,8 @@ import org.aopalliance.aop.Advice;
 
 /**
  * Spring AOP Advisor that can be used for any AspectJ pointcut expression.
- *
+ * 此类实现了PointcutAdvisor接口 把切面pointcut，拦截方法advice 和具体切面表达式 包装在了一起
+ * 这样就可以在xml的配置定义一个pointcutAdvisor切面拦截器了
  */
 public class AspectJExpressionPointcutAdvisor implements PointcutAdvisor {
 

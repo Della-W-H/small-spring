@@ -6,6 +6,7 @@ package cn.bugstack.springframework.aop;
  * <p>A pointcut is composed of a {@link ClassFilter} and a {@link MethodMatcher}.
  * Both these basic terms and a Pointcut itself can be combined to build up combinations
  * <p>
+ *     切入点接口 定义用于获取ClassFilter,MethodMatcher 的两个类，这两个接口获取都是切点表达式提供的内容
  */
 public interface Pointcut {
 

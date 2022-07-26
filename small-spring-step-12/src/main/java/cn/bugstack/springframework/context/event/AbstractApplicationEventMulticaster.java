@@ -59,6 +59,7 @@ public abstract class AbstractApplicationEventMulticaster implements Application
     /**
      * 监听器是否对该事件感兴趣
      */
+    @SuppressWarnings("all")
     protected boolean supportsEvent(ApplicationListener<ApplicationEvent> applicationListener, ApplicationEvent event) {
         Class<? extends ApplicationListener> listenerClass = applicationListener.getClass();
 

@@ -12,7 +12,8 @@ import java.util.Set;
  * registering corresponding bean definitions with a given registry ({@code BeanFactory}
  * or {@code ApplicationContext}).
  * <p>
- *
+ *  根据xml文件中 base-package 值 解析 相关路径下所需要的 类 判断类是否添加了@Compenent为主
+ *  将解析成功的class文件 的 definition信息添加到 registry中保存
  */
 @SuppressWarnings("all")
 public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateComponentProvider {
@@ -44,6 +45,11 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
         return StrUtil.EMPTY;
     }
 
+    /**
+     * 如果 @Component注解中 定义了value 即设定为名字 反之 即 类名驼峰
+     * @param beanDefinition
+     * @return
+     */
     private String determineBeanName(BeanDefinition beanDefinition) {
         Class<?> beanClass = beanDefinition.getBeanClass();
         Component component = beanClass.getAnnotation(Component.class);

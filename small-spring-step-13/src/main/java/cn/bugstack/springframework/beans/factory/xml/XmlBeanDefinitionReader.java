@@ -65,6 +65,12 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         }
     }
 
+    /**
+     * todo 这个xml解析 小功能还是 值得 学习的
+     * @param inputStream
+     * @throws ClassNotFoundException
+     * @throws DocumentException
+     */
     @SuppressWarnings("all")
     protected void doLoadBeanDefinitions(InputStream inputStream) throws ClassNotFoundException, DocumentException {
         SAXReader reader = new SAXReader();

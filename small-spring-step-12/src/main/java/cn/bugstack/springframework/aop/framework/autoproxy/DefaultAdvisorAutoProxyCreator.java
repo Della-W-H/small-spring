@@ -18,7 +18,7 @@ import java.util.Collection;
  * Advisors in the current BeanFactory. This class is completely generic; it contains
  * no special code to handle any particular aspects, such as pooling aspects.
  * <p>
- *
+ * 融入bean生命周期的自动代理创建者
  */
 public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPostProcessor, BeanFactoryAware {
 
@@ -29,6 +29,16 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
         this.beanFactory = (DefaultListableBeanFactory) beanFactory;
     }
 
+    /**
+     * 此步 即 将代理类生成工厂和 spring 中AbstractAutowireCapableBeanFactory中的createbean()方法耦合了
+     * 分析实际的调用链路 可以 看出 执行到这一步时 所有的 beanDefinition信息都已经被加载进了 spring容器中了
+     * 因为此Demo中 AspecJExpressionPointcutAdvisor被定义在了xml文件中即 意味着它在spring容器启动的第一时间
+     * 就会被 加载进beanDefinition容器中 可以 无缝衔接进 spring执行流程中
+     * @param beanClass
+     * @param beanName
+     * @return
+     * @throws BeansException
+     */
     @Override
     @SuppressWarnings("all")
     public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
