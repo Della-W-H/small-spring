@@ -21,10 +21,7 @@ import java.util.List;
 
 /**
  * Bean definition reader for XML bean definitions.
- * <p>
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ *
  */
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
@@ -68,6 +65,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         }
     }
 
+    @SuppressWarnings("all")
     protected void doLoadBeanDefinitions(InputStream inputStream) throws ClassNotFoundException, DocumentException {
         SAXReader reader = new SAXReader();
         Document document = reader.read(inputStream);

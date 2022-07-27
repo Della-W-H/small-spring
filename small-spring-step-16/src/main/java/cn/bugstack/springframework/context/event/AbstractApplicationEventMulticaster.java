@@ -17,10 +17,7 @@ import java.util.Set;
 /**
  * Abstract implementation of the {@link ApplicationEventMulticaster} interface,
  * providing the basic listener registration facility.
- * <p>
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ *
  */
 public abstract class AbstractApplicationEventMulticaster implements ApplicationEventMulticaster, BeanFactoryAware {
 
@@ -62,6 +59,7 @@ public abstract class AbstractApplicationEventMulticaster implements Application
     /**
      * 监听器是否对该事件感兴趣
      */
+    @SuppressWarnings("all")
     protected boolean supportsEvent(ApplicationListener<ApplicationEvent> applicationListener, ApplicationEvent event) {
         Class<? extends ApplicationListener> listenerClass = applicationListener.getClass();
 
