@@ -15,7 +15,7 @@ import java.util.Properties;
  * Allows for configuration of individual bean property values from a property resource,
  * i.e. a properties file. Useful for custom config files targeted at system
  * administrators that override bean properties configured in the application context.
- *
+ * 注意 这个class对象的 实现接口 这意味着 他在bean的生命周期中 很早就被 执行了
  */
 public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
 

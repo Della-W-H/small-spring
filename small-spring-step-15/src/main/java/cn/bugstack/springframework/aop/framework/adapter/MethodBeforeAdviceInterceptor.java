@@ -22,6 +22,7 @@ public class MethodBeforeAdviceInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
+        //此处就是执行拦截点的地方哦
         this.advice.before(methodInvocation.getMethod(), methodInvocation.getArguments(), methodInvocation.getThis());
         return methodInvocation.proceed();
     }

@@ -45,6 +45,7 @@ public class ApiTest {
         beanPostProcessors.add(beanPostProcessor);
         beanPostProcessors.remove(beanPostProcessor);
 
+        //todo wtf size = 1? 注意了啊
         System.out.println(beanPostProcessors.size());
     }
 

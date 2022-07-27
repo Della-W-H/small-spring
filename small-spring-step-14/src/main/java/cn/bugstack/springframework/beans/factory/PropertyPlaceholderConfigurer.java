@@ -16,11 +16,9 @@ import java.util.Properties;
  * Allows for configuration of individual bean property values from a property resource,
  * i.e. a properties file. Useful for custom config files targeted at system
  * administrators that override bean properties configured in the application context.
- * <p>
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ *
  */
+@SuppressWarnings("all")
 public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
 
     /**
@@ -95,6 +93,7 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
 
         @Override
         public String resolveStringValue(String strVal) {
+            //todo 注意内部类的这种写法 即 内部类调用 外部类的 方法就是这么 写的 直接调用就可以了 为啥要搞成这么 花里胡哨的.....
             return PropertyPlaceholderConfigurer.this.resolvePlaceholder(strVal, properties);
         }
 

@@ -8,7 +8,7 @@ import org.aopalliance.aop.Advice;
  * a pointcut). <i>This interface is not for use by Spring users, but to
  * allow for commonality in support for different types of advice.</i>
  *
- *
+ * 定义访问者
  */
 public interface Advisor {
 

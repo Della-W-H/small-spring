@@ -19,9 +19,6 @@ import java.lang.reflect.Field;
  * <p>
  * 处理 @Value、@Autowired，注解的 BeanPostProcessor
  * <p>
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
  */
 public class AutowiredAnnotationBeanPostProcessor implements InstantiationAwareBeanPostProcessor, BeanFactoryAware {
 
@@ -33,6 +30,7 @@ public class AutowiredAnnotationBeanPostProcessor implements InstantiationAwareB
     }
 
     @Override
+    @SuppressWarnings("all")
     public PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName) throws BeansException {
         // 1. 处理注解 @Value
         Class<?> clazz = bean.getClass();
