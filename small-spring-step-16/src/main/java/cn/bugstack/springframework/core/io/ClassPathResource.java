@@ -10,6 +10,7 @@ import java.io.InputStream;
 public class ClassPathResource implements Resource {
 
     private final String path;
+    //同样的 xml文件 或者说一切 文件 都可以用 类加载器 加载进 内存中呢？ 包括 .class文件 当然
 
     private ClassLoader classLoader;
 

@@ -2,7 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-	         http://www.springframework.org/schema/beans/spring-beans.xsd">
+	         http://www.springframework.org/schema/beans/spring-beans.xsd"
+       xmlns:context="http://www.springframework.org/schema/c">
+
+    <!--多个value解析还是会出问题-->
+    <context:component-scane base-package="cn.bugstack.springframework.aop.aspectj"/>
 
     <bean id="husband" class="cn.bugstack.springframework.test.bean.Husband">
         <property name="wife" ref="wife"/>
@@ -17,6 +21,8 @@
 
     <!-- AOP 配置，验证三级缓存 -->
     <bean class="cn.bugstack.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+    <!--加上去看会不会报错 其实这个加上去 此demo中的设计感觉很有问题-->
+    <bean class="cn.bugstack.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
 
     <bean id="beforeAdvice" class="cn.bugstack.springframework.test.bean.SpouseAdvice"/>
 

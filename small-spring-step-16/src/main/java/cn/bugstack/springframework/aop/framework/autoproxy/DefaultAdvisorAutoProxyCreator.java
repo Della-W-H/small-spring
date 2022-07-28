@@ -21,7 +21,7 @@ import java.util.Set;
  * BeanPostProcessor implementation that creates AOP proxies based on all candidate
  * Advisors in the current BeanFactory. This class is completely generic; it contains
  * no special code to handle any particular aspects, such as pooling aspects.
- *
+ * 所有的 InstantiationAwareBeanPostProcessor 都需要在 xml配置文件中配置 即可以配多个(?) 一个 也可不配
  */
 public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPostProcessor, BeanFactoryAware {
 

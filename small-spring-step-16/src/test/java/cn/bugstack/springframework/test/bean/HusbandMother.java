@@ -1,6 +1,7 @@
 package cn.bugstack.springframework.test.bean;
 
 import cn.bugstack.springframework.beans.factory.FactoryBean;
+import cn.bugstack.springframework.stereotype.Component;
 
 import java.lang.reflect.Proxy;
 

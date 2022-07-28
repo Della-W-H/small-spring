@@ -5,10 +5,7 @@ import cn.bugstack.springframework.core.convert.converter.Converter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-/**
- * @author derekyi
- * @date 2021/1/17
- */
+
 public class StringToLocalDateConverter implements Converter<String, LocalDate> {
 
 	private final DateTimeFormatter DATE_TIME_FORMATTER;

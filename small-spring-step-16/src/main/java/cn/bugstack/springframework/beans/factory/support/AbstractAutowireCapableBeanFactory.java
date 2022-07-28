@@ -7,6 +7,7 @@ import cn.bugstack.springframework.beans.factory.*;
 import cn.bugstack.springframework.beans.factory.config.*;
 import cn.bugstack.springframework.context.ApplicationContextAware;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.convert.BasicType;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.TypeUtil;
@@ -28,12 +29,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     @Override
     protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException {
-        // 判断是否返回代理 Bean 对象
+        // 判断是否返回代理 Bean 对象 即对象是否 实现了InstantiationAwareBeanPostProcessor 接口
+        //并不是通过 这种 方式 而是通过 看其 是否能被 InstantiationAwareBeanPostProcessor 给 用方法 改造 若能 即自动生成了 代理对象
+        //todo 从这边可以可看出来 若是生成了代理对象 什么 实例化 处理循环依赖啥的 后续操作 啥都 不处理 直接返回
         Object bean = resolveBeforeInstantiation(beanName, beanDefinition);
         if (null != bean) {
             return bean;
         }
-
+        //若 代理对象生成失败 直接就 走正常流程
         return doCreateBean(beanName, beanDefinition, args);
     }
 
@@ -43,7 +46,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             // 实例化 Bean
             bean = createBeanInstance(beanDefinition, beanName, args);
 
-            // 处理循环依赖，将实例化后的Bean对象提前放入缓存中暴露出来
+            // 处理循环依赖，将实例化后的Bean对象提前放入缓存中暴露出来 暴露在三级缓存中了....
             if (beanDefinition.isSingleton()) {
                 Object finalBean = bean;
                 addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, beanDefinition, finalBean));
@@ -83,6 +86,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
             if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
                 exposedObject = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).getEarlyBeanReference(exposedObject, beanName);
+                //todo 我蠢了 第一时间 没看出来 为啥 这边是 == 判断 因为这一系列 InstantiationAwareBeanPostProcessor是叠加操作，不是谁覆盖谁的关系
                 if (null == exposedObject) return exposedObject;
             }
         }
@@ -124,6 +128,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                 PropertyValues pvs = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessPropertyValues(beanDefinition.getPropertyValues(), bean, beanName);
                 if (null != pvs) {
                     for (PropertyValue propertyValue : pvs.getPropertyValues()) {
+                        //todo 此处demo中会导致 相同的pv重新添加一份没有做到去重啊 可考虑将pv的存储结构 改变一下 啊
                         beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
                     }
                 }
@@ -132,16 +137,21 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     protected Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {
+        //生成代理对象
         Object bean = applyBeanPostProcessorsBeforeInstantiation(beanDefinition.getBeanClass(), beanName);
         if (null != bean) {
+            //生成 成功 即直接 做 所有的beanProcessor的 实例化后置 处理 跳过 循环依赖 属性填充啥的 然后直接返回
             bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
         }
         return bean;
     }
-
+    //生成 代理对象
     protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, String beanName) {
         for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
             if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                //todo 所有的 InstantiationAwareBeanPostProcessor实现类的 此方法 都是 null的执行结果 暂且蒙古
+                //感觉此处大有问题 只要遇到一个InstantiationAwareBeanPostProcessor 执行 就 完毕 就退出 感觉大有问题 因为你无法保证 是你希望执行的类啊
+                //ok 一种可能的猜想即 这个执行方法 中 应该存在 某种前置判断 不满足即不执行 直接返回null 否者即 满足 执行 生成代理对象的 方法
                 Object result = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessBeforeInstantiation(beanClass, beanName);
                 if (null != result) return result;
             }

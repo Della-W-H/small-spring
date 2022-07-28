@@ -36,7 +36,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     @Override
     public void loadBeanDefinitions(Resource resource) throws BeansException {
         try {
+            //从 具体的 文件地址及 加载方式 中 将 文件信息 从 磁盘中 转变为 io流的形式 进入到 内存中
             try (InputStream inputStream = resource.getInputStream()) {
+                //这一步 即 将io流转变为真正的 java类对象
                 doLoadBeanDefinitions(inputStream);
             }
         } catch (IOException | ClassNotFoundException | DocumentException e) {
@@ -65,13 +67,22 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         }
     }
 
+    /**
+     *  IO流中 数据 解析成为java中xml的类对像 再 从xml对象中 识别 甄选 可用的 java信息 将其 包装成为 beanDefinition类对象信息
+     * @param inputStream
+     * @throws ClassNotFoundException
+     * @throws DocumentException
+     */
     @SuppressWarnings("all")
     protected void doLoadBeanDefinitions(InputStream inputStream) throws ClassNotFoundException, DocumentException {
         SAXReader reader = new SAXReader();
         Document document = reader.read(inputStream);
         Element root = document.getRootElement();
 
+        //xml文件中配置的component-scan和bean标签 是各自 独立解析的互不影响
+
         // 解析 context:component-scan 标签，扫描包中的类并提取相关信息，用于组装 BeanDefinition
+        // todo 意味着此demo目前还是只能 手动配置好 component-scan标签 解决 配置文件的问题 还得到 spring boot 中寻找
         Element componentScan = root.element("component-scan");
         if (null != componentScan) {
             String scanPath = componentScan.attributeValue("base-package");
@@ -81,6 +92,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             scanPackage(scanPath);
         }
 
+        //bean标签解析
         List<Element> beanList = root.elements("bean");
         for (Element bean : beanList) {
 
@@ -129,6 +141,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         }
     }
 
+    /**
+     * component-scan路径下 的 对象解析 和相关处理类 的 注入
+     * @param scanPath
+     */
     private void scanPackage(String scanPath) {
         String[] basePackages = StrUtil.splitToArray(scanPath, ',');
         ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(getRegistry());

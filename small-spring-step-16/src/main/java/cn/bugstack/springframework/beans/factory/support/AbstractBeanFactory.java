@@ -47,7 +47,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
         return (T) getBean(name);
     }
-
+    //观察 一下 这个方法 执行过程中的 生成类和 返回类
     protected <T> T doGetBean(final String name, final Object[] args) {
         Object sharedInstance = getSingleton(name);
         if (sharedInstance != null) {
@@ -60,6 +60,13 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
         return (T) getObjectForBeanInstance(bean, name);
     }
 
+    /**
+     *  此处亦是实现了代理对象的替换 但是这个 spring自己耦合的代理生成方式不同 他将 代理生成的方式交给了  外部环境即使用者本身
+     *  即 激活了 继承了 FactoryBean 接口的 实现类 现实中spring整合 mybatis的sql灵活生成即是如此 看小傅哥的设计模式 proxy 这一章的内容即可看出
+     * @param beanInstance
+     * @param beanName
+     * @return
+     */
     private Object getObjectForBeanInstance(Object beanInstance, String beanName) {
         if (!(beanInstance instanceof FactoryBean)) {
             return beanInstance;

@@ -33,6 +33,7 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
      * for a typical example.
      * <p>
      * 在 Bean 对象执行初始化方法之后，执行此方法
+     * todo 但是 此方法返回值 为boolean类型 意味着 我可以 处理完后或者 不处理 返回 特定的boolean类型值
      *
      * @param bean
      * @param beanName

@@ -11,7 +11,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-
+/**
+ * todo 巨核心 spring的核心中的核心
+ */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
     /**

@@ -39,6 +39,7 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 
     private Object doGetObjectFromFactoryBean(final FactoryBean factory, final String beanName){
         try {
+            //这边也可生成代理对象进行灵活替换哦
             return factory.getObject();
         } catch (Exception e) {
             throw new BeansException("FactoryBean threw exception on object[" + beanName + "] creation", e);

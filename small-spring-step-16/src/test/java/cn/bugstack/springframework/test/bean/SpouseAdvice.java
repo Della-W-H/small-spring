@@ -4,6 +4,9 @@ import cn.bugstack.springframework.aop.MethodBeforeAdvice;
 
 import java.lang.reflect.Method;
 
+/**
+ * AOP 的实现
+ */
 public class SpouseAdvice implements MethodBeforeAdvice {
 
     @Override
