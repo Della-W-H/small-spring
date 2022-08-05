@@ -20,7 +20,7 @@ import java.lang.reflect.Method;
  * with the full capabilities specified by the class.
  * Implements the {@link cn.bugstack.springframework.beans.factory.config.AutowireCapableBeanFactory}
  * interface in addition to AbstractBeanFactory's {@link #createBean} method.
- *
+ * bean生成和处理 工厂
  */
 @SuppressWarnings("all")
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory {
@@ -31,7 +31,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException {
         // 判断是否返回代理 Bean 对象 即对象是否 实现了InstantiationAwareBeanPostProcessor 接口
         //并不是通过 这种 方式 而是通过 看其 是否能被 InstantiationAwareBeanPostProcessor 给 用方法 改造 若能 即自动生成了 代理对象
-        //todo 从这边可以可看出来 若是生成了代理对象 什么 实例化 处理循环依赖啥的 后续操作 啥都 不处理 直接返回
+        //todo 从这边可以可看出来 若是生成了代理对象（？可能是代理对象，而且这种对象是一次性的他并不会被放进singletonObjects容器中貌似） 什么 实例化 处理循环依赖啥的 后续操作 啥都 不处理 直接返回
         Object bean = resolveBeforeInstantiation(beanName, beanDefinition);
         if (null != bean) {
             return bean;
@@ -46,10 +46,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             // 实例化 Bean
             bean = createBeanInstance(beanDefinition, beanName, args);
 
-            // 处理循环依赖，将实例化后的Bean对象提前放入缓存中暴露出来 暴露在三级缓存中了....
+            // 处理循环依赖，将实例化后的Bean对象提前放入缓存中暴露出来 暴露在三级缓存中了.... 但是暴露的时这个类的lambda类形式 并不是本身....
             if (beanDefinition.isSingleton()) {
                 Object finalBean = bean;
-                addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, beanDefinition, finalBean));
+                addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, beanDefinition, finalBean));//从这里执行栈帧中可以看出来lambda语句都是懒加载的 只有被执行时才会加载 同时也得注意 这个功能接口的方法引用的执行形式啊
             }
 
             // 实例化后判断
@@ -86,7 +86,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
             if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
                 exposedObject = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).getEarlyBeanReference(exposedObject, beanName);
-                //todo 我蠢了 第一时间 没看出来 为啥 这边是 == 判断 因为这一系列 InstantiationAwareBeanPostProcessor是叠加操作，不是谁覆盖谁的关系
+                //可以和下面的相互返回形式转换 只是这样写显得不同罢了
                 if (null == exposedObject) return exposedObject;
             }
         }
@@ -96,7 +96,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     /**
      * Bean 实例化后对于返回 false 的对象，不在执行后续设置 Bean 对象属性的操作
-     *
+     * 意味着这边可以 自定义修改 bean属性啊
      * @param beanName
      * @param bean
      * @return
@@ -145,7 +145,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         }
         return bean;
     }
-    //生成 代理对象
+    //第一次执行时是对 beanPostProcessor自身的提前生成进行的处理 但是 又要拿到还未完全暴露的beanPostProcessor(容器中最初只有一个ApplicationContextAwareProcessor)是怎么想的？ 或许源码中的实际操作会给出解答
     protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, String beanName) {
         for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
             if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
@@ -250,7 +250,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             ((InitializingBean) bean).afterPropertiesSet();
         }
 
-        // 2. 注解配置 init-method {判断是为了避免二次执行销毁}
+        // 2. xml文件中配置类初始化方法 即类文件定义好了初始化 方法 此时可被执行
         String initMethodName = beanDefinition.getInitMethodName();
         if (StrUtil.isNotEmpty(initMethodName)) {
             Method initMethod = beanDefinition.getBeanClass().getMethod(initMethodName);

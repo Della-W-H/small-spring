@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * todo 巨核心 spring的核心中的核心
+ * spring的单例存放处 三级缓存的处理处
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
@@ -40,8 +40,11 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
      */
     private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<String, ObjectFactory<?>>();
 
+    /**
+     * 容器 销毁时 一同销毁的 bean对象
+     */
     private final Map<String, DisposableBean> disposableBeans = new LinkedHashMap<>();
-
+    @SuppressWarnings("all")
     @Override
     public Object getSingleton(String beanName) {
         Object singletonObject = singletonObjects.get(beanName);
@@ -52,7 +55,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
                 ObjectFactory<?> singletonFactory = singletonFactories.get(beanName);
                 if (singletonFactory != null) {
                     singletonObject = singletonFactory.getObject();
-                    // 把三级缓存中的代理对象中的真实对象获取出来，放入二级缓存中
+                    // 把三级缓存中的代理对象中的真实对象获取出来，放入二级缓存中 顺便移除三级缓存中的 原型对象 但是第一个原型对象时如何放进来的呢？ 执行demo观察栈帧中的执行顺序你就知道为啥了
                     earlySingletonObjects.put(beanName, singletonObject);
                     singletonFactories.remove(beanName);
                 }
@@ -70,7 +73,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     protected void addSingletonFactory(String beanName, ObjectFactory<?> singletonFactory){
         if (!this.singletonObjects.containsKey(beanName)) {
             this.singletonFactories.put(beanName, singletonFactory);
-            this.earlySingletonObjects.remove(beanName);
+            this.earlySingletonObjects.remove(beanName);//为啥这边会删除二级缓存啊 明明所有的缓存中此时还没有目标对象啊？暂时蒙古
         }
     }
 

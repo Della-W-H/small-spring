@@ -23,7 +23,7 @@ public class DisposableBeanAdapter implements DisposableBean {
         this.beanName = beanName;
         this.destroyMethodName = beanDefinition.getDestroyMethodName();
     }
-
+    @SuppressWarnings("all")
     @Override
     public void destroy() throws Exception {
         // 1. 实现接口 DisposableBean

@@ -30,6 +30,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
     /**
      * String resolvers to apply e.g. to annotation attribute values
+     * embedded(嵌入式的)
      */
     private final List<StringValueResolver> embeddedValueResolvers = new ArrayList<>();
 
@@ -48,10 +49,11 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
         return (T) getBean(name);
     }
     //观察 一下 这个方法 执行过程中的 生成类和 返回类
+    @SuppressWarnings("all")
     protected <T> T doGetBean(final String name, final Object[] args) {
         Object sharedInstance = getSingleton(name);
         if (sharedInstance != null) {
-            // 如果是 FactoryBean，则需要调用 FactoryBean#getObject
+            // 如果是 FactoryBean，则需要调用 FactoryBean#getObject todo 这其中的objectFactory和FactoryBean有啥区别呢？
             return (T) getObjectForBeanInstance(sharedInstance, name);
         }
 

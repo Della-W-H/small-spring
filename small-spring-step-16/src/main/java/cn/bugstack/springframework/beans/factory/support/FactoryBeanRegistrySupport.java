@@ -19,6 +19,11 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
      */
     private final Map<String, Object> factoryBeanObjectCache = new ConcurrentHashMap<String, Object>();
 
+    /**
+     * 这种结合 空类(单纯的new Object())判空的方法 亦是 值得好好学习的
+     *
+     */
+
     protected Object getCachedObjectForFactoryBean(String beanName) {
         Object object = this.factoryBeanObjectCache.get(beanName);
         return (object != NULL_OBJECT ? object : null);
@@ -39,7 +44,7 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 
     private Object doGetObjectFromFactoryBean(final FactoryBean factory, final String beanName){
         try {
-            //这边也可生成代理对象进行灵活替换哦
+            //这边就是生成代理对象 替换会 spring容器中
             return factory.getObject();
         } catch (Exception e) {
             throw new BeansException("FactoryBean threw exception on object[" + beanName + "] creation", e);

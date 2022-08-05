@@ -48,7 +48,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         // 4. 在 Bean 实例化之前，执行 BeanFactoryPostProcessor (Invoke factory processors registered as beans in the context.)
         invokeBeanFactoryPostProcessors(beanFactory);
 
-        // 5. BeanPostProcessor 需要提前于其他 Bean 对象实例化之前执行注册操作
+        // 5. 对继承此接口的BeanPostProcessor的bean对象进行提前实例话 需要提前于其他 Bean 对象实例化之前执行注册操作
         registerBeanPostProcessors(beanFactory);
 
         // 6. 初始化事件发布者
@@ -77,6 +77,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     }
 
     private void registerBeanPostProcessors(ConfigurableListableBeanFactory beanFactory) {
+        //此demo中 第一次运行到此处时 仅有defaultAdvisorAutoProxyCreator和autowiredAnnotationBeanPostProcessor 被注入到了singletonsObjects单例容器中
         Map<String, BeanPostProcessor> beanPostProcessorMap = beanFactory.getBeansOfType(BeanPostProcessor.class);
         for (BeanPostProcessor beanPostProcessor : beanPostProcessorMap.values()) {
             beanFactory.addBeanPostProcessor(beanPostProcessor);

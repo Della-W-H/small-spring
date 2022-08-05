@@ -21,12 +21,12 @@ import java.util.Set;
  * BeanPostProcessor implementation that creates AOP proxies based on all candidate
  * Advisors in the current BeanFactory. This class is completely generic; it contains
  * no special code to handle any particular aspects, such as pooling aspects.
- * 所有的 InstantiationAwareBeanPostProcessor 都需要在 xml配置文件中配置 即可以配多个(?) 一个 也可不配
+ * 所有的 InstantiationAwareBeanPostProcessor 都需要在 xml配置文件中配置 即可以配多个(?) 一个 也可不配 对
  */
 public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPostProcessor, BeanFactoryAware {
 
     private DefaultListableBeanFactory beanFactory;
-
+    //todo 可以的 虽然知道这个用法 但是没有实践过啊
     private final Set<Object> earlyProxyReferences = Collections.synchronizedSet(new HashSet<Object>());
 
     @Override
@@ -36,6 +36,8 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
 
     @Override
     public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
+        //此处感觉可添加前置判断 即对自己码文件的前置判断从而 做出是否 生成 相应的 代理对象即返回一个Object 这样的的话 其他一切实现了InstantiationAwareBeanPostProcessor的自定义都不会再进行判断执行了
+        //而且这边也可以 不进行 特殊的字节码文件的判断 这时候你可以修改这个spring容器中 所有在beanPostProcessor之后进来的beanDefinition 所有的做出同样的修改！！！
         return null;
     }
 
